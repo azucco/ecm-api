@@ -38,7 +38,6 @@ async function verifyToken(req, res, next) {
     try {
         const token = await checkToken(req, res);
         const payload = await getPayload(token);
-        req.payload = payload;
         next();
     } catch (err) {
         console.log(err)

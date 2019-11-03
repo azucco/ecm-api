@@ -4,7 +4,6 @@ const connection = require('../my_modules/connection');
 
 // Get all users
 router.get('/user', function(req, res) {
-    console.log(req.payload)
     connection
         .query('SELECT * FROM users')
         .then(result => {
