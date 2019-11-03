@@ -1,4 +1,3 @@
-/* const connection = require('connection'); */
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -6,7 +5,7 @@ dotenv.config();
 const createToken = function (id) {
     return new Promise(resolve => {
         const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60), id: id }, process.env.JWT_PRIVATE_KEY);
-        resolve(token);
+        resolve(token)
     })
 }
 
