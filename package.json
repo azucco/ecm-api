@@ -1,0 +1,18 @@
+{
+  "name": "ecmapi",
+  "version": "1.0.0",
+  "description": "enterprise coffee manager api",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.1.0",
+    "pg": "^7.12.1"
+  }
+}
