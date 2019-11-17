@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import bodyParser from 'body-parser';
+import tokenManager from './my_modules/tokenManager';
+
 const app = express();
-const bodyParser = require('body-parser');
-const tokenManager = require('./my_modules/tokenManager');
 
 // === Middleware
 

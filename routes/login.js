@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import connection from '../my_modules/connection';
+import tokenManager from '../my_modules/tokenManager';
+
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const connection = require('../my_modules/connection');
-const tokenManager = require('../my_modules/tokenManager');
 
 router.post('/login', function(req, res, next) {
     

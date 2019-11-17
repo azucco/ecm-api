@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import connection from '../my_modules/connection';
+
 const router = express.Router();
-const connection = require('../my_modules/connection');
 
 // Get all users
 router.get('/user', function(req, res) {

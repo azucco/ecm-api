@@ -4,15 +4,22 @@
   "description": "enterprise coffee manager api",
   "main": "app.js",
   "scripts": {
-    "start": "node app"
+    "start": "nodemon app.js --exec babel-node --presets babel-preset-env"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.2",
-    "jsonwebtoken": "^8.1.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.1.0",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
     "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
   }
 }
