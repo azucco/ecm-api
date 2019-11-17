@@ -55,7 +55,7 @@ router.post('/register', function(req, res, next) {
                 if(!check){
                     let id = await insertUser();
                     const token = await tokenManager.createToken(id);
-                    json.message = `User regsitered.`;
+                    json.message = `User registered.`;
                     console.log("token: " + token)
                     json.token = token;
                    

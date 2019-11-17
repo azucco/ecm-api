@@ -38,6 +38,7 @@ async function verifyToken(req, res, next) {
     try {
         const token = await checkToken(req, res);
         const payload = await getPayload(token);
+        res.locals.user = payload.id;
         next();
     } catch (err) {
         console.log(err)
