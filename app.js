@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import tokenManager from './my_modules/tokenManager';
+import User from './my_modules/user';
+
 
 const app = express();
 
@@ -29,5 +31,7 @@ app.use('/', userRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
+  const user = new User();
+  console.log(user.name)
   console.log(`Server is running on port ${PORT}.`);
 });
