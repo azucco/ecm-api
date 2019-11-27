@@ -1,13 +1,11 @@
 import express from 'express';
 import connection from '../my_modules/connection';
+import User from '../my_modules/user';
 
 const router = express.Router();
 
 const select = `SELECT u.username, u.mail, t.name as team FROM users u 
-                INNER JOIN teams t ON u.team = t.id
-                
-                `
-/* LEFT JOIN coffee_user cu ON u.id = cu.user */
+                INNER JOIN teams t ON u.team = t.id`
 
 // Get all users
 router.get('/user', function (req, res) {
@@ -30,54 +28,24 @@ router.get('/user', function (req, res) {
         .catch(e => console.error(e.stack))
 });
 
-// Get user
+
 router.get('/user/:id', function (req, res) {
-
     const id = req.params.id
+    const user = new User(id)
+    
+    sendResponse()
 
-    connection
-        .query(select + `WHERE u.id = ${id}`)
-        .then(result => {
-            const data = result.rows[0]
-            const coffees = []
+    async function sendResponse(){
+        try {
+            await user.getInfo()
+            await user.getStats()
+            await user.getCoffees()
+        } catch(err) {
+            console.error(err)
+        } 
+        res.json(user)
+    }
+})
 
-            connection
-                .query(`SELECT COUNT(cu.id) as total, SUM(c.price) as amount FROM coffee_user cu
-                        INNER JOIN coffees c ON cu.coffee = c.id
-                        WHERE cu.user = ${id}`)
-                .then(result => {
-                    const stats = {
-                        total: result.rows[0].total,
-                        amount: result.rows[0].amount
-                    }
-
-                    connection
-                        .query(`SELECT cu.*, c.name FROM coffee_user cu
-                        INNER JOIN coffees c ON cu.coffee = c.id
-                        WHERE cu.user = ${id}`)
-                        .then(result => {
-
-                            result.rows.map(element => {
-                                const coffee = {
-                                    name: element.name,
-                                    date: element.date
-                                }
-                                coffees.push(coffee)
-                            })
-
-                            const user = {
-                                name: data.username,
-                                mail: data.mail,
-                                team: data.team,
-                                coffees: coffees,
-                                stats: stats
-                            }
-
-                            res.json(user);
-                        })
-                })
-        })
-        .catch(e => console.error(e.stack))
-});
 
 module.exports = router;
