@@ -9,7 +9,6 @@ const select = `SELECT u.username, u.mail, t.name as team FROM users u
 
 // Get all users
 router.get('/user', function (req, res) {
-
     connection
         .query(select)
         .then(result => {

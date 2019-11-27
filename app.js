@@ -21,12 +21,14 @@ const userRouter = require('./routes/user'); */
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
 const userRouter = require('./routes/user');
+const coffeeRouter = require('./routes/coffee');
 
 /* app.use('/', indexRouter);
 app.use('/', userRouter); */
 app.use('/', loginRouter);
 app.use('/', registerRouter);
 app.use('/', userRouter);
+app.use('/', coffeeRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
