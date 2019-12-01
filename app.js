@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import tokenManager from './my_modules/tokenManager';
 
@@ -11,9 +12,16 @@ const app = express();
 app.use(bodyParser.json());
 
 // token authentication
-app.use('/user', (req, res, next) =>{
+/* app.use('/user', (req, res, next) =>{
+  tokenManager.verifyToken(req, res, next);
+}); */
+app.use('/coffee', (req, res, next) =>{
   tokenManager.verifyToken(req, res, next);
 });
+
+// CORS
+app.use(cors())
+
 
 // === Routes 
 /* const indexRouter = require('./routes/index');
@@ -30,7 +38,7 @@ app.use('/', registerRouter);
 app.use('/', userRouter);
 app.use('/', coffeeRouter);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

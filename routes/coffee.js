@@ -38,7 +38,12 @@ router.post('/coffee/:id', function (req, res) {
       }
     connection
         .query(query)
-        .then(result => res.json(result.rows[0].id))
+        .then(result => {
+            let json = {
+                id: result.rows[0].id
+            }
+            res.json(json)
+        })
         .catch(e => console.log(e.stack))
 
 })
