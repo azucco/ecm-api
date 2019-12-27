@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app.js --exec babel-node --presets babel-preset-env"
   },
-  "author": "",
+  "author": "Alessandro Zucco",
   "license": "ISC",
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -19,9 +19,7 @@
     "dotenv": "^8.1.0",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
-    "pg": "^7.15.1"
-  },
-  "devDependencies": {
+    "pg": "^7.15.1",
     "nodemon": "^1.19.4"
   }
 }
