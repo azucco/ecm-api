@@ -31,7 +31,7 @@ router.post('/register', function(req, res, next) {
                 bcrypt.hash(password, salt, (err, hash) => {
                     if (err) throw err;
                     const query = {
-                        text: 'INSERT INTO users (username, mail, pw) VALUES (DEFAULT, $1, $2, $3) RETURNING *',
+                        text: 'INSERT INTO users (username, mail, pw) VALUES ($1, $2, $3) RETURNING *',
                         values: [username, mail, hash]
                       }
                     connection
