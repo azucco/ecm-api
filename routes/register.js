@@ -11,6 +11,7 @@ router.post('/register', function(req, res, next) {
     const username = req.body.username;
     const mail = req.body.mail;
     const password = req.body.password;
+    const team = req.body.team;
 
     const findUniqueKey = function() {
         return new Promise(resolve => {
@@ -31,8 +32,8 @@ router.post('/register', function(req, res, next) {
                 bcrypt.hash(password, salt, (err, hash) => {
                     if (err) throw err;
                     const query = {
-                        text: 'INSERT INTO users (username, mail, pw) VALUES ($1, $2, $3) RETURNING *',
-                        values: [username, mail, hash]
+                        text: 'INSERT INTO users (username, mail, pw) VALUES ($1, $2, $3, $4) RETURNING *',
+                        values: [username, mail, hash, team]
                       }
                     connection
                         .query(query)
