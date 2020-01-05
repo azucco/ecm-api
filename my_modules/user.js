@@ -63,11 +63,14 @@ class User {
         return new Promise(resolve =>{
             connection
             .query(`SELECT coffee_user.user, ROW_NUMBER () OVER (ORDER BY COUNT(*) desc)
-                    FROM public.coffee_user 
-                    WHERE coffee_user.user = ${this.id}
+                    FROM public.coffee_user
                     GROUP BY coffee_user.user`)
             .then(result=> {
-                this.rank = result.rows[0].row_number
+                result.rows.map(element => {
+                    if(element.id === this.id){
+                        this.rank = element.row_number
+                    }
+                })
                 resolve()
             })
         })
