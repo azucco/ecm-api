@@ -58,6 +58,20 @@ class User {
             })
         }) 
     }
+
+    getRank() {
+        return new Promise(resolve =>{
+            connection
+            .query(`SELECT coffee_user.user, ROW_NUMBER () OVER (ORDER BY COUNT(*) desc)
+                    FROM public.coffee_user 
+                    WHERE coffee_user.user = ${this.id}
+                    GROUP BY coffee_user.user`)
+            .then(result=> {
+                this.rank = result.rows[0].row_number
+                resolve()
+            })
+        })
+    }
 }
 
 
