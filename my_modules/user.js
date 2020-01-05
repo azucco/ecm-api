@@ -67,7 +67,7 @@ class User {
                     GROUP BY coffee_user.user`)
             .then(result=> {
                 result.rows.map(element => {
-                    if(element.id == this.id){
+                    if(element.user == this.id){
                         this.rank = element.row_number
                     }
                 })
