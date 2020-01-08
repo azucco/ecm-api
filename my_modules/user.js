@@ -62,7 +62,7 @@ class User {
     getRank() {
         return new Promise(resolve =>{
             connection
-            .query(`SELECT coffee_user.user, ROW_NUMBER () OVER (ORDER BY COUNT(*) desc)
+            .query(`SELECT coffee_user.user, RANK () OVER (ORDER BY COUNT(*) desc)
                     FROM public.coffee_user
                     GROUP BY coffee_user.user`)
             .then(result=> {
