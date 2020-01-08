@@ -68,7 +68,7 @@ class User {
             .then(result=> {
                 result.rows.map(element => {
                     if(element.user == this.id){
-                        this.rank = element.row_number
+                        this.rank = element.rank
                     }
                 })
                 resolve()
