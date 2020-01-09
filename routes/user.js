@@ -40,6 +40,7 @@ router.get('/user/:id', function (req, res) {
             await user.getStats()
             await user.getCoffees()
             await user.getRank()
+            await user.getRatio()
         } catch(err) {
             console.error(err)
         } 

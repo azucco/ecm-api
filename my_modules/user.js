@@ -7,7 +7,7 @@ class User {
     }
     
     getInfo() {
-        return new Promise(resolve =>{
+        return new Promise(resolve => {
             connection
             .query(`SELECT u.username, u.mail, t.name as team FROM users u 
                     INNER JOIN teams t ON u.team = t.id
@@ -23,7 +23,7 @@ class User {
     }
 
     getStats() {
-        return new Promise(resolve =>{
+        return new Promise(resolve => {
             connection
             .query(`SELECT COUNT(cu.id) as total, SUM(c.price) as amount FROM coffee_user cu
                     INNER JOIN coffees c ON cu.coffee = c.id
@@ -39,7 +39,7 @@ class User {
     }
 
     getCoffees() {
-        return new Promise(resolve =>{
+        return new Promise(resolve => {
             connection
             .query(`SELECT cu.*, c.name FROM coffee_user cu
                     INNER JOIN coffees c ON cu.coffee = c.id
@@ -60,7 +60,7 @@ class User {
     }
 
     getRank() {
-        return new Promise(resolve =>{
+        return new Promise(resolve => {
             connection
             .query(`SELECT coffee_user.user, RANK () OVER (ORDER BY COUNT(*) desc)
                     FROM public.coffee_user
@@ -71,6 +71,32 @@ class User {
                         this.rank = element.rank
                     }
                 })
+                resolve()
+            })
+        })
+    }
+
+    getRatio() {
+        return new Promise(resolve =>{
+            connection
+            .query(`SELECT C.name, 
+                            COUNT(*)::decimal/(
+                                SELECT COUNT(*) FROM public.coffee_user CU WHERE CU.user = 10
+                            )*100 as ratio 
+                        FROM public.coffee_user CU
+                        INNER JOIN public.coffees C ON CU.coffee = C.id
+                        WHERE CU.user = 10
+                        GROUP BY CU.coffee, C.name;`)
+            .then(result => {
+                const ratio = []
+                result.rows.map(element => {
+                    let coffee = {
+                        name: element.name,
+                        ratio: element.ratio
+                    }
+                    ratio.push(coffee)
+                })
+                this.ratio = ratio
                 resolve()
             })
         })
