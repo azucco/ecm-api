@@ -37,10 +37,6 @@ router.get('/users/:id', function (req, res) {
     async function sendResponse(){
         try {
             await user.getInfo()
-            await user.getStats()
-            await user.getCoffees()
-            await user.getRank()
-            await user.getRatio()
         } catch(err) {
             console.error(err)
         } 
