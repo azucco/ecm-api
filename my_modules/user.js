@@ -30,7 +30,7 @@ export default class User {
             connection
             .query(`SELECT COUNT(cu.id) as total, SUM(c.price) as amount FROM coffee_user cu
                     INNER JOIN coffees c ON cu.coffee = c.id
-                    WHERE cu.user = ${this.id} ${where}`)
+                    WHERE cu.user = ${this.id}` + where)
             .then(result => {
                 this.stats = {
                     total: result.rows[0].total,
@@ -50,7 +50,7 @@ export default class User {
             connection
             .query(`SELECT cu.*, c.name FROM coffee_user cu
                     INNER JOIN coffees c ON cu.coffee = c.id
-                    WHERE cu.user = ${this.id} ${where}`)
+                    WHERE cu.user = ${this.id}` + where)
             .then(result => {
                 const coffees = []
                 result.rows.map(element => {
@@ -74,9 +74,9 @@ export default class User {
         return new Promise(resolve => {
             connection
             .query(`SELECT coffee_user.user, RANK () OVER (ORDER BY COUNT(*) desc)
-                    FROM public.coffee_user
-                    ${where}
-                    GROUP BY coffee_user.user`)
+                    FROM public.coffee_user`
+                    + where
+                    `GROUP BY coffee_user.user`)
             .then(result=> {
                 result.rows.map(element => {
                     if(element.user == this.id){
@@ -91,7 +91,7 @@ export default class User {
     getRatio(lastMonth = false) {
         const where = "";
         if(lastMonth){
-            where = "  AND cu.date >= date_trunc('month', current_date - interval '1' month)";
+            where = " AND cu.date >= date_trunc('month', current_date - interval '1' month)";
         }
         return new Promise(resolve =>{
             connection
@@ -101,8 +101,8 @@ export default class User {
                             )*100 as ratio 
                         FROM public.coffee_user CU
                         INNER JOIN public.coffees C ON CU.coffee = C.id
-                        WHERE CU.user = 10 ${where}
-                        GROUP BY CU.coffee, C.name;`)
+                        WHERE CU.user = 10`  + where
+                        `GROUP BY CU.coffee, C.name;`)
             .then(result => {
                 const ratio = []
                 result.rows.map(element => {
