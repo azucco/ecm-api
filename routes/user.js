@@ -8,7 +8,7 @@ const select = `SELECT u.username, u.mail, t.name as team FROM users u
                 INNER JOIN teams t ON u.team = t.id`
 
 // Get all users
-router.get('/user', function (req, res) {
+router.get('/users', function (req, res) {
     connection
         .query(select)
         .then(result => {
@@ -28,7 +28,7 @@ router.get('/user', function (req, res) {
 });
 
 
-router.get('/user/:id', function (req, res) {
+router.get('/users/:id', function (req, res) {
     const id = req.params.id
     const user = new User(id)
     
@@ -41,6 +41,45 @@ router.get('/user/:id', function (req, res) {
             await user.getCoffees()
             await user.getRank()
             await user.getRatio()
+        } catch(err) {
+            console.error(err)
+        } 
+        res.json(user)
+    }
+})
+
+router.get('/users/consumptions/:id', function (req, res) {
+    const id = req.params.id
+    const user = new User(id)
+    
+    sendResponse()
+
+    async function sendResponse(){
+        try {
+            await user.getStats()
+            await user.getCoffees()
+            await user.getRank()
+            await user.getRatio()
+        } catch(err) {
+            console.error(err)
+        } 
+        res.json(user)
+    }
+})
+
+router.get('/users/consumptions/month/:id', function (req, res) {
+    const id = req.params.id
+    const user = new User(id)
+    const lastMonth = true;
+    
+    sendResponse()
+
+    async function sendResponse(){
+        try {
+            await user.getStats(lastMonth)
+            await user.getCoffees(lastMonth)
+            await user.getRank(lastMonth)
+            await user.getRatio(lastMonth)
         } catch(err) {
             console.error(err)
         } 

@@ -1,10 +1,9 @@
 import connection from '../my_modules/connection';
 
-
-class User {
+export default class User {
     constructor(id) {
         this.id = id;
-    }
+    } 
     
     getInfo() {
         return new Promise(resolve => {
@@ -22,12 +21,16 @@ class User {
         }) 
     }
 
-    getStats() {
+    getStats(lastMonth = false) {
+        const where = "";
+        if(lastMonth){
+            where = " AND cu.date >= date_trunc('month', current_date - interval '1' month)";
+        }
         return new Promise(resolve => {
             connection
             .query(`SELECT COUNT(cu.id) as total, SUM(c.price) as amount FROM coffee_user cu
                     INNER JOIN coffees c ON cu.coffee = c.id
-                    WHERE cu.user = ${this.id}`)
+                    WHERE cu.user = ${this.id} ${where}`)
             .then(result => {
                 this.stats = {
                     total: result.rows[0].total,
@@ -38,12 +41,16 @@ class User {
         }) 
     }
 
-    getCoffees() {
+    getCoffees(lastMonth = false) {
+        const where = "";
+        if(lastMonth){
+            where = " AND cu.date >= date_trunc('month', current_date - interval '1' month)";
+        }
         return new Promise(resolve => {
             connection
             .query(`SELECT cu.*, c.name FROM coffee_user cu
                     INNER JOIN coffees c ON cu.coffee = c.id
-                    WHERE cu.user = ${this.id}`)
+                    WHERE cu.user = ${this.id} ${where}`)
             .then(result => {
                 const coffees = []
                 result.rows.map(element => {
@@ -59,11 +66,16 @@ class User {
         }) 
     }
 
-    getRank() {
+    getRank(lastMonth = false) {
+        const where = "";
+        if(lastMonth){
+            where = " WHERE cu.date >= date_trunc('month', current_date - interval '1' month)";
+        }
         return new Promise(resolve => {
             connection
             .query(`SELECT coffee_user.user, RANK () OVER (ORDER BY COUNT(*) desc)
                     FROM public.coffee_user
+                    ${where}
                     GROUP BY coffee_user.user`)
             .then(result=> {
                 result.rows.map(element => {
@@ -76,7 +88,11 @@ class User {
         })
     }
 
-    getRatio() {
+    getRatio(lastMonth = false) {
+        const where = "";
+        if(lastMonth){
+            where = "  AND cu.date >= date_trunc('month', current_date - interval '1' month)";
+        }
         return new Promise(resolve =>{
             connection
             .query(`SELECT C.name, 
@@ -85,7 +101,7 @@ class User {
                             )*100 as ratio 
                         FROM public.coffee_user CU
                         INNER JOIN public.coffees C ON CU.coffee = C.id
-                        WHERE CU.user = 10
+                        WHERE CU.user = 10 ${where}
                         GROUP BY CU.coffee, C.name;`)
             .then(result => {
                 const ratio = []
@@ -102,6 +118,3 @@ class User {
         })
     }
 }
-
-
-export default User;
