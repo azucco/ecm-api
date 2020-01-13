@@ -33,7 +33,7 @@ app.use(cors())
 const userRouter = require('./routes/user'); */
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
-const userRouter = require('./routes/user');
+const userRouter = require('./routes/users');
 const coffeeRouter = require('./routes/coffee');
 
 /* app.use('/', indexRouter);
