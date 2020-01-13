@@ -22,7 +22,7 @@ export default class User {
     }
 
     getStats(lastMonth = false) {
-        const where = ``;
+        let where = ``;
         if(lastMonth){
             where = ` AND cu.date >= date_trunc('month', current_date - interval '1' month)`;
         }
@@ -42,7 +42,7 @@ export default class User {
     }
 
     getCoffees(lastMonth = false) {
-        const where = ``;
+        let where = ``;
         if(lastMonth){
             where = ` AND cu.date >= date_trunc('month', current_date - interval '1' month)`;
         }
@@ -67,7 +67,7 @@ export default class User {
     }
 
     getRank(lastMonth = false) {
-        const where = ``;
+        let where = ``;
         if(lastMonth){
             where = ` WHERE cu.date >= date_trunc('month', current_date - interval '1' month)`;
         }
@@ -89,7 +89,7 @@ export default class User {
     }
 
     getRatio(lastMonth = false) {
-        const where = ``;
+        let where = ``;
         if(lastMonth){
             where = ` AND cu.date >= date_trunc('month', current_date - interval '1' month)`;
         }
