@@ -22,9 +22,9 @@ export default class User {
     }
 
     getStats(lastMonth = false) {
-        const where = "";
+        const where = ``;
         if(lastMonth){
-            where = " AND cu.date >= date_trunc('month', current_date - interval '1' month)";
+            where = ` AND cu.date >= date_trunc('month', current_date - interval '1' month)`;
         }
         return new Promise(resolve => {
             connection
@@ -42,9 +42,9 @@ export default class User {
     }
 
     getCoffees(lastMonth = false) {
-        const where = "";
+        const where = ``;
         if(lastMonth){
-            where = " AND cu.date >= date_trunc('month', current_date - interval '1' month)";
+            where = ` AND cu.date >= date_trunc('month', current_date - interval '1' month)`;
         }
         return new Promise(resolve => {
             connection
@@ -67,15 +67,15 @@ export default class User {
     }
 
     getRank(lastMonth = false) {
-        const where = "";
+        const where = ``;
         if(lastMonth){
-            where = " WHERE cu.date >= date_trunc('month', current_date - interval '1' month)";
+            where = ` WHERE cu.date >= date_trunc('month', current_date - interval '1' month)`;
         }
         return new Promise(resolve => {
             connection
             .query(`SELECT coffee_user.user, RANK () OVER (ORDER BY COUNT(*) desc)
                     FROM public.coffee_user`
-                    + where
+                    + where +
                     `GROUP BY coffee_user.user`)
             .then(result=> {
                 result.rows.map(element => {
@@ -89,9 +89,9 @@ export default class User {
     }
 
     getRatio(lastMonth = false) {
-        const where = "";
+        const where = ``;
         if(lastMonth){
-            where = " AND cu.date >= date_trunc('month', current_date - interval '1' month)";
+            where = ` AND cu.date >= date_trunc('month', current_date - interval '1' month)`;
         }
         return new Promise(resolve =>{
             connection
@@ -101,7 +101,7 @@ export default class User {
                             )*100 as ratio 
                         FROM public.coffee_user CU
                         INNER JOIN public.coffees C ON CU.coffee = C.id
-                        WHERE CU.user = 10`  + where
+                        WHERE CU.user = 10`  + where +
                         `GROUP BY CU.coffee, C.name;`)
             .then(result => {
                 const ratio = []
