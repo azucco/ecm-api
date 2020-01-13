@@ -76,7 +76,7 @@ export default class User {
             .query(`SELECT cu.user, RANK () OVER (ORDER BY COUNT(*) desc)
                     FROM public.coffee_user cu`
                     + where +
-                    `GROUP BY cu.user`)
+                    ` GROUP BY cu.user`)
             .then(result=> {
                 result.rows.map(element => {
                     if(element.user == this.id){
