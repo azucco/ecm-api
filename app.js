@@ -28,9 +28,7 @@ app.use('/coffee', (req, res, next) =>{
 app.use(cors())
 
 
-// === Routes 
-/* const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user'); */
+// === Routes
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
 const userRouter = require('./routes/user');
