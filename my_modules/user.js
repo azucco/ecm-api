@@ -120,29 +120,4 @@ export default class User {
         })
     }
 
-    getCoffeeDiary() {
-        if(lastMonth){
-            where = ` AND cu.date > date_trunc('month', current_date)`;
-        }
-        return new Promise(resolve => {
-            connection
-            .query(`SELECT CU.coffee, CU.date, C.name
-                    FROM public.coffee_user CU
-                    INNER JOIN public.coffees C ON CU.coffee = C.id 
-                    WHERE CU.user = ${this.id}` + where + 
-                    ` GROUP BY C.name, CU.coffee, CU.date`)
-            .then(result => {
-                const diary = []
-                result.rows.map(element => {
-                    let coffee = {
-                        name: element.name,
-                        day: element.date
-                    }
-                    diary.push(coffee)
-                })
-                this.diary = diary
-                resolve()
-            })
-        }) 
-    }
 }
