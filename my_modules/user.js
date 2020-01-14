@@ -97,11 +97,13 @@ export default class User {
             connection
             .query(`SELECT c.name, 
                             COUNT(*)::decimal/(
-                                SELECT COUNT(*) FROM public.coffee_user cu WHERE cu.user = 10
-                            )*100 as ratio 
+                                SELECT COUNT(*) 
+                                FROM public.coffee_user cu 
+                                WHERE cu.user = 10` + where +
+                            `)*100 as ratio 
                         FROM public.coffee_user cu
                         INNER JOIN public.coffees c ON cu.coffee = c.id
-                        WHERE cu.user = 10`  + where +
+                        WHERE cu.user = 10` + where +
                         `GROUP BY cu.coffee, c.name`)
             .then(result => {
                 const ratio = []
