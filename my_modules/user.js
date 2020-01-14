@@ -24,7 +24,7 @@ export default class User {
     getStats(lastMonth = false) {
         let where = ``;
         if(lastMonth){
-            where = ` AND cu.date >= date_trunc('month', current_date - interval '1' month)`;
+            where = ` AND cu.date > date_trunc('month', current_date)`;
         }
         return new Promise(resolve => {
             connection
@@ -44,7 +44,7 @@ export default class User {
     getCoffees(lastMonth = false) {
         let where = ``;
         if(lastMonth){
-            where = ` AND cu.date >= date_trunc('month', current_date - interval '1' month)`;
+            where = ` AND cu.date > date_trunc('month', current_date)`;
         }
         return new Promise(resolve => {
             connection
@@ -69,7 +69,7 @@ export default class User {
     getRank(lastMonth = false) {
         let where = ``;
         if(lastMonth){
-            where = ` WHERE cu.date >= date_trunc('month', current_date - interval '1' month)`;
+            where = ` WHERE cu.date > date_trunc('month', current_date)`;
         }
         return new Promise(resolve => {
             connection
@@ -91,7 +91,7 @@ export default class User {
     getRatio(lastMonth = false) {
         let where = ``;
         if(lastMonth){
-            where = ` AND cu.date >= date_trunc('month', current_date - interval '1' month)`;
+            where = ` AND cu.date > date_trunc('month', current_date)`;
         }
         return new Promise(resolve =>{
             connection
@@ -104,7 +104,7 @@ export default class User {
                         FROM public.coffee_user cu
                         INNER JOIN public.coffees c ON cu.coffee = c.id
                         WHERE cu.user = 10` + where +
-                        `GROUP BY cu.coffee, c.name`)
+                        ` GROUP BY cu.coffee, c.name`)
             .then(result => {
                 const ratio = []
                 result.rows.map(element => {
@@ -118,5 +118,31 @@ export default class User {
                 resolve()
             })
         })
+    }
+
+    getCoffeeDiary() {
+        if(lastMonth){
+            where = ` AND cu.date > date_trunc('month', current_date)`;
+        }
+        return new Promise(resolve => {
+            connection
+            .query(`SELECT COUNT(*), CU.date, C.name
+                    FROM public.coffee_user CU
+                    INNER JOIN public.coffees C ON CU.coffee = C.id 
+                    WHERE CU.user = ${this.id}` + where + 
+                    ` GROUP BY CU.date, C.name`)
+            .then(result => {
+                const diary = []
+                result.rows.map(element => {
+                    let coffee = {
+                        name: element.name,
+                        day: element.date
+                    }
+                    diary.push(coffee)
+                })
+                this.diary = diary
+                resolve()
+            })
+        }) 
     }
 }

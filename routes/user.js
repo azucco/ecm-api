@@ -56,6 +56,7 @@ router.get('/users/consumptions/:id', function (req, res) {
             await user.getCoffees()
             await user.getRank()
             await user.getRatio()
+            await user.getCoffeeDiary()
         } catch(err) {
             console.error(err)
         } 
@@ -76,6 +77,7 @@ router.get('/users/consumptions/month/:id', function (req, res) {
             await user.getCoffees(lastMonth)
             await user.getRank(lastMonth)
             await user.getRatio(lastMonth)
+            await user.getCoffeeDiary(lastMonth)
         } catch(err) {
             console.error(err)
         } 
