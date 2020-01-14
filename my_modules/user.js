@@ -126,11 +126,11 @@ export default class User {
         }
         return new Promise(resolve => {
             connection
-            .query(`SELECT COUNT(*), CU.date, C.name
+            .query(`SELECT CU.coffee, CU.date, C.name
                     FROM public.coffee_user CU
                     INNER JOIN public.coffees C ON CU.coffee = C.id 
                     WHERE CU.user = ${this.id}` + where + 
-                    ` GROUP BY CU.date, C.name`)
+                    ` GROUP BY C.name, CU.coffee, CU.date`)
             .then(result => {
                 const diary = []
                 result.rows.map(element => {
