@@ -17,7 +17,7 @@
     "braces": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "jsonwebtoken": "^8.1.0",
     "pg": "^7.15.1",
     "nodemon": "^1.19.4"
